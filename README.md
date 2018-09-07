@@ -1,0 +1,2 @@
+# squirty
+Observable SQS streams
