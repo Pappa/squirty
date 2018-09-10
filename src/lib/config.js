@@ -6,5 +6,3 @@ export const defaultParams = {
   WaitTimeSeconds: 20,
   VisibilityTimeout: null
 };
-
-export const requiredParams = ["QueueUrl"];
