@@ -22,6 +22,13 @@
   },
   "homepage": "https://github.com/Pappa/squirty#readme",
   "dependencies": {
-    "rxjs": "^6.3.2"
+    "aws-sdk": "^2.311.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "rxjs": "6.x.x"
+  },
+  "peerDependencies": {
+    "rxjs": "6.x.x"
   }
 }
