@@ -22,21 +22,14 @@
     "url": "https://github.com/Pappa/squirty/issues"
   },
   "homepage": "https://github.com/Pappa/squirty#readme",
-  "dependencies": {
-    "aws-sdk": "^2.311.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-loader": "^8.0.2",
     "eslint": "^5.5.0",
     "rxjs": "6.x.x",
-    "webpack": "^4.18.0",
-    "webpack-cli": "^3.1.0"
+    "aws-sdk": "2.x.x"
   },
   "peerDependencies": {
-    "rxjs": "6.x.x"
+    "rxjs": "6.x.x",
+    "aws-sdk": "2.x.x"
   }
 }
