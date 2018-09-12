@@ -1,6 +1,6 @@
 import { Observable, Subscriber } from "rxjs";
 
-export default class SqsObservable {
+class SqsObservable {
     constructor(options, queue) {
         this.options = options;
         this.queue = queue;
@@ -27,7 +27,11 @@ export default class SqsObservable {
 			};
 		});
     }
-  
-    static create = (options, queue) => new SqsObservable(options, queue);
   }
+
+  const sqsObservable = {
+    create: (options, queue) => new SqsObservable(options, queue)
+  };
+
+  export default sqsObservable;
   

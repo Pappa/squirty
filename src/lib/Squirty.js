@@ -3,10 +3,10 @@ import SQS from "aws-sdk/clients/sqs";
 import { defaultParams } from "./config";
 import SqsObservable from "./SqsObservable";
 
-export default class Squirty {
+class Squirty {
   constructor(options, queue) {
-    if (!options.QueueUrl) {
-      throw "options.QueueUrl is required";
+    if (!options || !options.QueueUrl) {
+      throw new Error("options.QueueUrl is required");
     }
     const sqs =
       queue ||
@@ -17,6 +17,10 @@ export default class Squirty {
 
     return SqsObservable.create(params, sqs);
   }
-
-  static create = (options, queue) => new Squirty(options, queue);
 }
+
+const squirty = {
+  create: (options, queue) => new Squirty(options, queue)
+};
+
+export default squirty;
