@@ -63,6 +63,7 @@ describe("Squirty", () => {
                 done(e);
             },
             complete: () => {
+                assert.equal(queue.receiveMessage.callCount, 1);
                 assert.equal(queue.deleteMessage.callCount, 3);
                 done();
             }
