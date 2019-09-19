@@ -69,17 +69,12 @@ describe("Squirty", () => {
       repeat()
     );
 
-    messages$
-      .pipe(
-        take(3),
-        toArray()
-      )
-      .subscribe(
-        m => {
-          expect(m[0].ResponseMetadata.RequestId).to.equal("xyz");
-          done();
-        },
-        e => expect.fail(e)
-      );
+    messages$.pipe(take(1)).subscribe(
+      m => {
+        expect(m.ResponseMetadata.RequestId).to.equal("xyz");
+        done();
+      },
+      e => expect.fail(e)
+    );
   });
 });
