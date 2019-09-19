@@ -1,10 +1,26 @@
 import sinon from "sinon";
-import SqsObservable from "./SqsObservable";
-import { assert } from "chai";
-import { take, toArray } from "rxjs/operators";
+import { expect } from "chai";
+import { of, from, bindCallback } from "rxjs";
+import {
+  take,
+  toArray,
+  delay,
+  map,
+  repeat,
+  tap,
+  catchError
+} from "rxjs/operators";
+import { create } from "./SqsObservable.experiment";
+
+let sandbox;
+
+const resolve = data =>
+  sandbox.stub().returns({ promise: sandbox.stub().resolves(data) });
+
+const reject = e =>
+  sandbox.stub().returns({ promise: sandbox.stub().rejects(e) });
 
 describe("Squirty", () => {
-  let sandbox;
   let options = {
     QueueUrl: "url",
     WaitTimeSeconds: 1,
@@ -39,10 +55,7 @@ describe("Squirty", () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    queue = {
-      receiveMessage: sandbox.stub(),
-      deleteMessage: sandbox.stub()
-    };
+    queue = {};
   });
 
   afterEach(() => {
@@ -50,27 +63,23 @@ describe("Squirty", () => {
   });
 
   it("should poll for messages and delete on success", done => {
-    const squirty$ = SqsObservable.create(options, queue);
+    queue.receiveMessage = resolve(messages);
+    const messages$ = create(options, queue).pipe(
+      delay(50),
+      repeat()
+    );
 
-    squirty$
+    messages$
       .pipe(
         take(3),
         toArray()
       )
-      .subscribe({
-        next: messages => {
-          assert.equal(messages.length, 3);
-        },
-        error: e => {
-          done(e);
-        },
-        complete: () => {
-          assert.equal(queue.receiveMessage.callCount, 1);
-          assert.equal(queue.deleteMessage.callCount, 3);
+      .subscribe(
+        m => {
+          expect(m[0].ResponseMetadata.RequestId).to.equal("xyz");
           done();
-        }
-      });
-
-    queue.receiveMessage.yield(null, messages);
+        },
+        e => expect.fail(e)
+      );
   });
 });
